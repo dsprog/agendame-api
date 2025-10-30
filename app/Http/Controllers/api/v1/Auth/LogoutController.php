@@ -15,9 +15,7 @@ class LogoutController extends Controller
     {
         $user = Auth::user();
         if ($user && $user->currentAccessToken()) {
-            Auth::logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
+            $user->tokens()->delete();
             $user->currentAccessToken()->delete();
 
             return response()->json(['message' => 'Logged out successfully'], 200);
