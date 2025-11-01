@@ -7,7 +7,7 @@
     <style media="all" type="text/css">
         /* -------------------------------------
         GLOBAL RESETS
-    ------------------------------------- */
+        ------------------------------------- */
 
         body {
             font-family: Helvetica, sans-serif;
@@ -316,7 +316,7 @@
                 </table>
 
                 <!-- START FOOTER -->
-                @include('emails.partials.footer')
+                @include('mails.layouts.partials.footer')
 
                 </div>
         </td>

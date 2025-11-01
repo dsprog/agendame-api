@@ -21,27 +21,36 @@ class RegisterController extends Controller
     {
         $data = $request->validated();
 
-        if (User::query()->WhereEmail($data['email'])->exists()) {
+        if (User::whereEmail($data['email'])->exists()) {
             throw new UserHasBeenTakenException;
         }
 
-        $user = User::query()->create($data);
+        try{
+            \DB::beginTransaction();
+            $user = User::create($data);
 
-        $teamName = explode(' ', $data['name'])[0]."'s Team";
-        $team = Team::query()->create([
-            'token' => Str::uuid(),
-            'name' => $teamName,
-        ]);
+            $teamName = explode(' ', $data['name'])[0]."'s Team";
+            $team = Team::create([
+                'token' => Str::uuid(),
+                'name' => $teamName,
+            ]);
 
-        setPermissionsTeamId($team->id);
-        $user->assignRole('admin');
+            setPermissionsTeamId($team->id);
+            $user->assignRole('admin');
 
-        $user = new UserResource($user);
-        $user->default_team_id = $team->id;
-        $user->save();
+            // $user->default_team_id = $team->id;
+            $user->save();
+            \DB::commit();
 
-        UserRegistered::dispatch($user);
+            UserRegistered::dispatch($user);
 
-        return response()->json($user, 200);
+            return response()->json([
+                'message' => 'User registered successfully.',
+                'user' => new UserResource($user),
+            ], 201);
+        } catch (\Exception $e) {
+            \DB::rollBack();
+            throw $e;
+        }
     }
 }
