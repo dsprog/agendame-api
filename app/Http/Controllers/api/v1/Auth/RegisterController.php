@@ -25,7 +25,7 @@ class RegisterController extends Controller
             throw new UserHasBeenTakenException;
         }
 
-        try{
+        try {
             \DB::beginTransaction();
             $user = User::create($data);
 

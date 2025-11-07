@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-//use Illuminate\Support\ServiceProvider;
+// use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -12,6 +12,7 @@ class AppServiceProvider extends ServiceProvider
             \App\Listeners\SendWelcomeEmail::class,
         ],
     ];
+
     /**
      * Register any application services.
      */
