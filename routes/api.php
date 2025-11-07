@@ -3,6 +3,7 @@
 use App\Http\Controllers\api\v1\Auth\LoginController;
 use App\Http\Controllers\api\v1\Auth\LogoutController;
 use App\Http\Controllers\api\v1\Auth\RegisterController;
+use App\Http\Controllers\api\v1\Auth\VerifyEmailController;
 use App\Http\Controllers\api\v1\User\MeController;
 use App\Http\Controllers\api\v1\User\ShowController;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ Route::prefix('v1')->group(function () {
     Route::post('/register', RegisterController::class);
     Route::post('/login', LoginController::class);
     Route::get('/users/{user}', ShowController::class);
+    Route::post('/verify-email', VerifyEmailController::class);
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', LogoutController::class);

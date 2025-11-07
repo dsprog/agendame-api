@@ -5,7 +5,7 @@ namespace App\Http\Controllers\api\v1\Auth;
 use App\Events\UserRegistered;
 use App\Exceptions\UserHasBeenTakenException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\api\vi\Auth\RegisterRequest;
+use App\Http\Requests\api\v1\Auth\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\Team;
 use App\Models\User;
@@ -27,6 +27,8 @@ class RegisterController extends Controller
 
         try {
             \DB::beginTransaction();
+
+            $data['token'] = Str::uuid();
             $user = User::create($data);
 
             $teamName = explode(' ', $data['name'])[0]."'s Team";
