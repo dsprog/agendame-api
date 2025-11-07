@@ -45,6 +45,29 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'first_name' => 'string',
+            'last_name' => 'string',
         ];
+    }
+
+    /**
+     * Get the user's first name.
+     */
+    public function getFirstNameAttribute(): string
+    {
+        $parts = explode(' ', $this->name);
+        return $parts[0] ?? '';
+    }
+
+    /**
+     * Get the user's last name.
+     */
+    public function getLastNameAttribute(): string
+    {
+        $parts = explode(' ', $this->name);
+        if(count($parts) < 2) {
+            return '';
+        }
+        return end($parts);
     }
 }

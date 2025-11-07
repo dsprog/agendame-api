@@ -4,6 +4,7 @@ use App\Http\Controllers\api\v1\Auth\LoginController;
 use App\Http\Controllers\api\v1\Auth\LogoutController;
 use App\Http\Controllers\api\v1\Auth\RegisterController;
 use App\Http\Controllers\api\v1\User\MeController;
+use App\Http\Controllers\api\v1\User\ShowController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -11,6 +12,7 @@ Route::prefix('v1')->group(function () {
 
     Route::post('/register', RegisterController::class);
     Route::post('/login', LoginController::class);
+    Route::get('/users/{user}', ShowController::class);
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', LogoutController::class);
