@@ -2,15 +2,17 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+// use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    protected $listeners = [
+    protected $listen = [
         \App\Events\UserRegistered::class => [
             \App\Listeners\SendWelcomeEmail::class,
         ],
     ];
+
     /**
      * Register any application services.
      */
@@ -24,6 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        parent::boot();
     }
 }

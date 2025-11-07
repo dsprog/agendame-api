@@ -12,7 +12,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, HasRoles, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +23,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'first_name',
+        'last_name',
+        'token',
     ];
 
     /**
@@ -45,6 +48,31 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'first_name' => 'string',
+            'last_name' => 'string',
         ];
+    }
+
+    /**
+     * Get the user's first name.
+     */
+    public function getFirstNameAttribute(): string
+    {
+        $parts = explode(' ', $this->name);
+
+        return $parts[0] ?? '';
+    }
+
+    /**
+     * Get the user's last name.
+     */
+    public function getLastNameAttribute(): string
+    {
+        $parts = explode(' ', $this->name);
+        if (count($parts) < 2) {
+            return '';
+        }
+
+        return end($parts);
     }
 }
