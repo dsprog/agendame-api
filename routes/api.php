@@ -4,6 +4,8 @@ use App\Http\Controllers\api\v1\Auth\LoginController;
 use App\Http\Controllers\api\v1\Auth\LogoutController;
 use App\Http\Controllers\api\v1\Auth\RegisterController;
 use App\Http\Controllers\api\v1\Auth\VerifyEmailController;
+use App\Http\Controllers\api\v1\Auth\ForgetPasswordController;
+use App\Http\Controllers\api\v1\Auth\ResetPasswordController;
 use App\Http\Controllers\api\v1\User\MeController;
 use App\Http\Controllers\api\v1\User\ShowController;
 use Illuminate\Http\Request;
@@ -15,6 +17,8 @@ Route::prefix('v1')->group(function () {
     Route::post('/login', LoginController::class);
     Route::get('/users/{user}', ShowController::class);
     Route::post('/verify-email', VerifyEmailController::class);
+    Route::post('/forgot-password', ForgetPasswordController::class);
+    Route::post('/reset-password', ResetPasswordController::class);
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', LogoutController::class);

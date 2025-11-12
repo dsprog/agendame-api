@@ -11,6 +11,9 @@ class AppServiceProvider extends ServiceProvider
         \App\Events\UserRegistered::class => [
             \App\Listeners\SendWelcomeEmail::class,
         ],
+        \App\Events\ForgotPasswordRequested::class => [
+            \App\Listeners\SendForgotPasswordToken::class,
+        ],
     ];
 
     /**
