@@ -7,15 +7,17 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MyEvent
+class ForgotPasswordRequested
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public function __construct()
-    {
+    public function __construct(
+        public readonly \App\Models\User $user,
+        public readonly string $token
+    ) {
         //
     }
 

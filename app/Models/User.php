@@ -75,4 +75,9 @@ class User extends Authenticatable
 
         return end($parts);
     }
+
+    public function resetPasswordTokens()
+    {
+        return $this->hasMany(PasswordResetToken::class);
+    }
 }

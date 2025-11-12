@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\api\v1\Auth;
 
+use App\Exceptions\InvalidTokenException;
+use App\Exceptions\UserAlreadyVerifiedException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\api\v1\Auth\VerifyEmailRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 
 class VerifyEmailController extends Controller
@@ -18,21 +21,21 @@ class VerifyEmailController extends Controller
 
         $user = User::where('token', $token)->first();
 
-        if ($user) {
-
-            $user->email_verified_at = now();
-            $user->token = null; // Invalidate the token after verification
-            $user->save();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Email verified successfully!',
-            ], 200);
-        } else {
-            return response()->json([
-                'error' => true,
-                'message' => 'Invalid or expired token.',
-            ], 400);
+        if (! $user) {
+            throw new InvalidTokenException;
         }
+
+        if ($user->email_verified_at) {
+            throw new UserAlreadyVerifiedException;
+        }
+
+        $user->email_verified_at = now();
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Email verified successfully!',
+            'user' => new UserResource($user),
+        ], 200);
     }
 }
