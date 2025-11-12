@@ -2,11 +2,10 @@
 
 namespace App\Listeners;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\Facades\Mail;
 use App\Events\ForgotPasswordRequested;
 use App\Mail\PasswordResetTokenMail;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Mail;
 
 class SendForgotPasswordToken implements ShouldQueue
 {

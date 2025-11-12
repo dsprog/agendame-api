@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\api\v1\Auth;
 
+use App\Exceptions\InvalidPasswordResetTokenException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\api\v1\Auth\ResetPasswordRequest;
 use App\Models\PasswordResetToken;
-use App\Exceptions\InvalidPasswordResetTokenException;
 
 class ResetPasswordController extends Controller
 {
@@ -22,8 +22,8 @@ class ResetPasswordController extends Controller
             ->where('created_at', '>=', $dataExpiry)
             ->first();
 
-        if(!$tokenRecord) {
-            throw new InvalidPasswordResetTokenException();
+        if (! $tokenRecord) {
+            throw new InvalidPasswordResetTokenException;
         }
 
         // Assuming User model has a method to reset password

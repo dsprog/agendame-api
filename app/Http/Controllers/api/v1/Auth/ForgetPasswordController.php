@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\api\v1\Auth;
 
+use App\Events\ForgotPasswordRequested;
+use App\Exceptions\UserNotFoundException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\api\v1\Auth\ForgetPasswordRequest;
 use App\Models\User;
-use App\Events\ForgotPasswordRequested;
-use App\Exceptions\UserNotFoundException;
 
 class ForgetPasswordController extends Controller
 {
@@ -19,14 +19,14 @@ class ForgetPasswordController extends Controller
 
         $user = User::whereEmail($data['email'])->first();
 
-        if(!$user) {
-            throw new UserNotFoundException();
+        if (! $user) {
+            throw new UserNotFoundException;
         }
 
         $token = bin2hex(random_bytes(32));
 
         $user->resetPasswordTokens()->create([
-            'token' => $token
+            'token' => $token,
         ]);
 
         ForgotPasswordRequested::dispatch($user, $token);

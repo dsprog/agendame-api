@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\api\v1\Auth;
 
+use App\Exceptions\InvalidTokenException;
+use App\Exceptions\UserAlreadyVerifiedException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\api\v1\Auth\VerifyEmailRequest;
 use App\Http\Resources\UserResource;
-use App\Exceptions\InvalidTokenException;
-use App\Exceptions\UserAlreadyVerifiedException;
 use App\Models\User;
 
 class VerifyEmailController extends Controller
@@ -21,7 +21,7 @@ class VerifyEmailController extends Controller
 
         $user = User::where('token', $token)->first();
 
-        if (!$user) {
+        if (! $user) {
             throw new InvalidTokenException;
         }
 

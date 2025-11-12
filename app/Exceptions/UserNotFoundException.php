@@ -10,5 +10,6 @@ class UserNotFoundException extends Exception
     use RenderToJson;
 
     protected $message = 'User not found.';
+
     protected $code = 400;
 }
